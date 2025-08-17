@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bank Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="title">Bank Chat</div>
+    </header>
+
+    <main id="chat" class="chat" aria-live="polite"></main>
+
+    <section class="suggestions" id="suggestions">
+      <button class="suggestion">list customers</button>
+      <button class="suggestion">customer 3</button>
+      <button class="suggestion">accounts for customer 3</button>
+      <button class="suggestion">balance for account 2</button>
+    </section>
+
+    <footer class="composer">
+      <form id="composer-form" autocomplete="off">
+        <textarea id="prompt" rows="1" placeholder="Type your message…" spellcheck="true"></textarea>
+        <button id="send" type="submit" disabled>Send</button>
+      </form>
+      <div class="hint">Enter to send • Shift+Enter = newline</div>
+    </footer>
+  </div>
+
+  <template id="msg-template">
+    <div class="msg">
+      <div class="avatar" aria-hidden="true"></div>
+      <div class="bubble-wrap">
+        <div class="bubble"></div>
+        <button class="copy" title="Copy reply" aria-label="Copy reply">Copy</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
