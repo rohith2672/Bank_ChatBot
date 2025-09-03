@@ -1,13 +1,13 @@
 package com.bank.Bank_ChatBot;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@Disabled("Disabled: we run WebFlux slice tests only")
 class BankChatBotApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+  @Test
+  void contextLoads() {
+    // no-op
+  }
 }

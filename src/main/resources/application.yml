@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+nlp:
+  base-url: ${NLP_BASE_URL:http://localhost:8000}  # override with env var if needed
+
+spring:
+  main:
+    web-application-type: servlet
