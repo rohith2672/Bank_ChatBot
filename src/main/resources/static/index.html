@@ -1,45 +1,78 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bank Chat</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="app">
-    <header class="topbar">
-      <div class="title">Bank Chat</div>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bank Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Point this to /chat (Spring) or override if you proxy -->
+    <meta name="chat-endpoint" content="/chat" />
+    <style>
+      :root { --bg:#0b1220; --panel:#0f172a; --ink:#e5e7eb; --muted:#94a3b8; --accent:#1f3a5c; --ok:#16a34a; --warn:#f59e0b; --err:#ef4444; }
+      *{box-sizing:border-box}
+      body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial}
+      .wrap{max-width:950px;margin:24px auto;padding:0 16px}
+      .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+      h1{font-size:20px;margin:0}
+      .card{background:var(--panel);border:1px solid #1f2937;border-radius:12px;padding:14px 16px}
+      #chat-log{display:flex;flex-direction:column;gap:8px;max-height:50vh;overflow:auto;margin-bottom:10px}
+      .bubble{padding:10px 12px;border-radius:10px;white-space:pre-wrap;line-height:1.35}
+      .bubble.user{background:var(--accent);color:#fff;align-self:flex-end}
+      .bubble.assistant{background:#111827;color:#e5e7eb;align-self:flex-start}
+      .row{display:flex;gap:10px}
+      .row > *{flex:1}
+      input, textarea, button{
+        background:#0b1327;border:1px solid #233148;color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit
+      }
+      button{cursor:pointer}
+      button:disabled{opacity:.6;cursor:not-allowed}
+      table{width:100%;border-collapse:collapse;margin-top:8px}
+      th,td{padding:8px;border-bottom:1px solid #1f2937;text-align:left;font-size:14px}
+      th{color:var(--muted);font-weight:600}
+      .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid #233148;color:var(--muted)}
+      .toolbar{display:flex;gap:8px;align-items:center}
+      .kbd{font:12px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;background:#0b1327;border:1px solid #233148;padding:2px 6px;border-radius:6px;color:#cbd5e1}
+      details{margin-top:10px}
+      summary{cursor:pointer;color:var(--muted)}
+      .kv{display:grid;grid-template-columns:180px 1fr;gap:6px 12px;margin-top:8px}
+      .kv b{color:var(--muted);font-weight:600}
+      .status-ok{color:var(--ok)} .status-warn{color:var(--warn)} .status-err{color:var(--err)}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>Bank Chat</h1>
+        <div class="toolbar">
+          <span class="pill">POST <span id="ep">/chat</span></span>
+          <label class="pill" style="padding:2px 6px">
+            API Key:
+            <input id="apikey" style="width:180px;margin-left:6px" placeholder="optional"/>
+          </label>
+        </div>
+      </div>
 
-    <main id="chat" class="chat" aria-live="polite"></main>
+      <div class="card">
+        <div id="chat-log"></div>
+        <form id="chat-form" class="row" data-chat>
+          <input id="message" name="message" autocomplete="off" placeholder="Try: balance for id 101" />
+          <button id="send" type="submit">Send <span class="kbd">Enter</span></button>
+        </form>
+      </div>
 
-    <section class="suggestions" id="suggestions">
-      <button class="suggestion">list customers</button>
-      <button class="suggestion">customer 3</button>
-      <button class="suggestion">accounts for customer 3</button>
-      <button class="suggestion">balance for account 2</button>
-    </section>
-
-    <footer class="composer">
-      <form id="composer-form" autocomplete="off">
-        <textarea id="prompt" rows="1" placeholder="Type your message…" spellcheck="true"></textarea>
-        <button id="send" type="submit" disabled>Send</button>
-      </form>
-      <div class="hint">Enter to send • Shift+Enter = newline</div>
-    </footer>
-  </div>
-
-  <template id="msg-template">
-    <div class="msg">
-      <div class="avatar" aria-hidden="true"></div>
-      <div class="bubble-wrap">
-        <div class="bubble"></div>
-        <button class="copy" title="Copy reply" aria-label="Copy reply">Copy</button>
+      <div id="last-response" class="card" style="margin-top:12px;display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <strong>Response</strong>
+          <span id="latency" class="pill">– ms</span>
+        </div>
+        <div id="reply-text" style="margin-top:6px"></div>
+        <div id="data-view"></div>
+        <details>
+          <summary>Raw JSON</summary>
+          <pre id="raw-json" style="overflow:auto;margin:8px 0;white-space:pre-wrap"></pre>
+        </details>
       </div>
     </div>
-  </template>
 
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
