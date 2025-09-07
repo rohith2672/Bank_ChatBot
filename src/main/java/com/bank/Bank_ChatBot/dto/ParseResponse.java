@@ -4,8 +4,8 @@ import java.util.Map;
 
 public record ParseResponse(
     String intent,
-    double confidence,
-    Map<String, Object> slots,
-    String follow_up,
-    Map<String, Object> safety
+    int customerId,
+    int n,
+    String name,
+    String follow_up
 ) {}

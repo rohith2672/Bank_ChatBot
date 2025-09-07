@@ -12,7 +12,7 @@ public class Account {
     @Column(name = "account_id")               // <-- key fix
     private Integer id;
 
-    @Column(name = "type")
+    @Column(name = "account_type")
     private String type;
 
     @Column(name = "balance")

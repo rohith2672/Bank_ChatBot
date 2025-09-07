@@ -25,7 +25,7 @@ public class Transaction {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "timestamp")
+    @Column(name = "transaction_date")
     private LocalDateTime timestamp;
 
     // getters/setters...
